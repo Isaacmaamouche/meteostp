@@ -26,7 +26,7 @@ const getWeather = function(e){
     .then(response => response.json()) 
     .then(json => {
         console.log(json);
-
+        if(weatherResult.children){weatherResult.innerHTML = ""}
         Object.entries(json).forEach(([key, value]) => {
             responseBuilder(key,value);
         });
