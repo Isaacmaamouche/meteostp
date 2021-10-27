@@ -1,0 +1,86 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0px red solid;
+    position: relative;
+}
+
+body{
+    background: #00c6ff; 
+    background: -webkit-linear-gradient(to right, #00c6ff, #0072ff);
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
+    font-size: 16px;
+    height: 100vh;
+    font-family: sans-serif;
+
+
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.mainContent {
+    h1{
+        font-size: 2rem;
+        padding: 2rem;
+    }
+
+    .mainContent__meteoEmoticon{
+        font-size: 3rem;
+        text-align: center;
+        span{
+            margin: 1rem;
+        }
+    }
+
+    .mainContent__inputSection{
+        text-align: center;
+        padding: 2rem;
+        
+        #city_input{
+            border-radius: 10px;
+            padding: 5px;
+            padding-left: 10px;
+            width: 250px;
+        }
+        
+        #city_submit{
+            color: white;
+            background-color: #2ecc71;
+            padding: 5px;
+            width: 100px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover{
+                transform: translateY(-2px);
+                box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+            }
+            
+        }
+        
+
+    }
+}
+
+
+footer{
+    position: absolute;
+    bottom: 0px;
+    right: 50%;
+    transform: translateX(50%);
+    a{
+        text-decoration: none;
+    }
+    p{
+        text-align: center;
+        font-size: 0.6rem;
+    }
+}
