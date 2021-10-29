@@ -22,14 +22,16 @@ const getWeather = function(e){
     if(city_input.value == ""){
         alert('Entrez une ville ou un code postal')
     }else{
-    fetch(`https://goweather.herokuapp.com/weather/${city_input.value}`)
+    fetch(`http://127.0.0.1:3000/api/search?q=${city_input.value}`)
     .then(response => response.json()) 
     .then(json => {
-        console.log(json);
         if(weatherResult.children){weatherResult.innerHTML = ""}
-        Object.entries(json).forEach(([key, value]) => {
-            responseBuilder(key,value);
-        });
+        responseBuilder("Temps",json.results.weather[0].description);
+        responseBuilder("Température",`${json.results.main.temp} C°`);
+        responseBuilder("Vent",`${json.results.wind.speed} km/h`);
+        // Object.entries(json).forEach(([key, value]) => {
+        //     responseBuilder(key,value);
+        // });
     });
 
     }
