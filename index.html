@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☀️</text></svg>">
     <link rel="stylesheet" href="src/css/app.css">
-    <script type="text/javascript" src="src/js/app.js" defer></script>
+    <script type="module" src="src/js/app.js" defer></script>
 
     <title>Météo STP</title>
 </head>
@@ -23,9 +23,15 @@
             <div class="mainContent__inputSection">
                 <p>Tapez le nom ou le code postal de votre ville :</p>
                 <br/>
-                <input id="city_input" type="text" placeholder="Ville ou code postal" value="Montpellier">
-                <input id="city_submit" type="submit" value="VALIDER">
+                <div>
+                    <input id="city_input" type="text" placeholder="Ville ou code postal" value="Montpellier">
+                    <ul class="mainContent__autocomplete">
+
+                    </ul>
+                </div>
+                <input id="city_submit" type="submit" value="VALIDER">               
             </div>
+            
         </div>
 
         <div class="weatherResult">
@@ -34,9 +40,7 @@
     </div>
 
     <footer>
-        <a target="_blank" href="https://github.com/high54/Communes-France-JSON">
-            <p>Merci à high54 pour le JSON des villes de France</p>
-        </a>
+        
     </footer>
 
 </body>
