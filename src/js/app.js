@@ -16,17 +16,15 @@ const getWeather = function(e){
     e.stopPropagation();
 
     const responseBuilder = function(key, value){
-        if(key !== 'forecast'){
-            let div = document.querySelector('.weatherResult div');
-            let p = document.createElement('p');
-            let span = document.createElement('span');
-            
-            p.innerHTML = key;
-            span.innerHTML = value;
-            p.appendChild(span);
-            div.appendChild(p);
-            weatherResult.appendChild(div);
-        }
+        let div = document.querySelector('.weatherResult div');
+        let p = document.createElement('p');
+        let span = document.createElement('span');
+        
+        p.innerHTML = key;
+        span.innerHTML = value;
+        p.appendChild(span);
+        div.appendChild(p);
+        weatherResult.appendChild(div);
     }
     
     if(city_input.value == ""){
@@ -36,10 +34,10 @@ const getWeather = function(e){
     .then(response => response.json()) 
     .then(json => {
         if(weatherResult.children){weatherResult.innerHTML = ""}
+        let div = document.createElement('div');
+        weatherResult.appendChild(div);
 
         if(json.results.message !== "city not found"){
-            let div = document.createElement('div');
-            weatherResult.appendChild(div);
             let cityName = document.createElement('p');
             cityName.innerHTML = `Météo de ${json.results.name}`;
             weatherResult.insertBefore(cityName,weatherResult.firstChild);
@@ -57,7 +55,7 @@ const getWeather = function(e){
 }
 
 city_submit.addEventListener("click", getWeather);
-city_submit.addEventListener("touchstart", getWeather);
+city_submit.addEventListener("touchenter", getWeather);
 document.addEventListener("keydown", function(e){
     if (e.code == 'Enter'){
         getWeather(e);
@@ -66,21 +64,7 @@ document.addEventListener("keydown", function(e){
 
 
 ///////ATOCOMPLETE FUNCTION///////
-const matchBuilder = function(matchingCity){
-    if(match.children){match.innerHTML = ""}
-    for(let i=0;i<4;i++){
-        let li = document.createElement('li')
-        if(matchingCity[i] != undefined){
-        li.innerHTML = matchingCity[i];
-        match.appendChild(li);
-        li.addEventListener('click',function(e){
-            let clickedMatch = e.target.innerHTML.split(' - ')
-            city_input.value = clickedMatch[1];
-            match.classList.remove('mainContent__autocomplete--active');
-        })
-       }
-    }
-}
+
 
 const autoComplete = function(e){
     let match = document.querySelector('.mainContent__autocomplete');
@@ -90,17 +74,38 @@ const autoComplete = function(e){
     let matchingCity = [];
 
     for(let i = 0; i < villesFrance.length; i++){
-        if(input !== "" && villesFrance[i].nom.includes(input)){
-            matchingCity.push(villesFrance[i].codep + " - " + villesFrance[i].nom)
-        }else if(input !== "" && String(villesFrance[i].codep).includes(input)){
-            matchingCity.push(villesFrance[i].codep + " - " + villesFrance[i].nom)
+        if(input !== "" && villesFrance[i].nom.startsWith(input)){
+            matchingCity.push({codep:villesFrance[i].codep, ville:villesFrance[i].nom})
+        }else if(input !== "" && String(villesFrance[i].codep).startsWith(input)){
+            matchingCity.push({codep:villesFrance[i].codep, ville:villesFrance[i].nom})
         }else if(input == ""){
             match.classList.remove('mainContent__autocomplete--active');
-        }
-        
+        }        
     }
+    matchingCity.sort((a, b) =>{
+        if (a.ville < b.ville) return -1;
+        if (a.ville > b.ville) return 1;
+        return 0
+    });
     matchBuilder(matchingCity)
 };
+
+const matchBuilder = function(matchingCity){
+    if(match.children){match.innerHTML = ""}
+    for(let i=0;i<4;i++){
+        let li = document.createElement('li')
+        if(matchingCity[i] != undefined){
+        li.innerHTML = matchingCity[i].codep + " - " + matchingCity[i].ville;
+        match.appendChild(li);
+        li.addEventListener('click',function(e){
+            let clickedMatch = e.target.innerHTML.split(" - ");
+            city_input.value = clickedMatch[1];
+            match.classList.remove('mainContent__autocomplete--active');
+            match.innerHTML = ""
+        })
+       }
+    }
+}
 
 
 //fonction abandonnée
