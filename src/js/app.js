@@ -7,7 +7,7 @@ let server = "https://warm-peak-43536.herokuapp.com";
 let city_input = document.querySelector('#city_input');
 let match = document.querySelector('.mainContent__autocomplete');
 let city_submit = document.querySelector('#city_submit');
-let weatherResult = document.querySelector('.weatherResult')
+let weatherResult = document.querySelector('.weatherResult');
 
 
 const getWeather = function(e){
@@ -17,13 +17,15 @@ const getWeather = function(e){
 
     const responseBuilder = function(key, value){
         if(key !== 'forecast'){
-            let p = document.createElement('p')
-            let span = document.createElement('span')
-
+            let div = document.querySelector('.weatherResult div');
+            let p = document.createElement('p');
+            let span = document.createElement('span');
+            
             p.innerHTML = key;
             span.innerHTML = value;
             p.appendChild(span);
-            weatherResult.appendChild(p)
+            div.appendChild(p);
+            weatherResult.appendChild(div);
         }
     }
     
@@ -36,13 +38,19 @@ const getWeather = function(e){
         if(weatherResult.children){weatherResult.innerHTML = ""}
 
         if(json.results.message !== "city not found"){
+            let div = document.createElement('div');
+            weatherResult.appendChild(div);
+            let cityName = document.createElement('p');
+            cityName.innerHTML = `Météo de ${json.results.name}`;
+            weatherResult.insertBefore(cityName,weatherResult.firstChild);
             responseBuilder("Temps : ",json.results.weather[0].description[0].toUpperCase() + json.results.weather[0].description.substring(1));
-            responseBuilder("Température : ",`${json.results.main.temp} C°`);
+            responseBuilder("Température actuelle : ",`${json.results.main.temp} C°`);
+            responseBuilder("Température min - max  : ",`${json.results.main.temp_min} - ${json.results.main.temp_max} C°`);
+            responseBuilder("Taux d'humidité : ",`${json.results.main.humidity} %`);
             responseBuilder("Vent : ",`${json.results.wind.speed} km/h`);
         }else{
-            responseBuilder("Oups : ","Je n'ai pas de météo pour cette ville")
-            responseBuilder("Essayez une grande ville proche !","")
-
+            responseBuilder("Oups : ","Je n'ai pas de météo pour cette ville");
+            responseBuilder("Essayez une grande ville proche !","");
         }
     });
     }
@@ -50,11 +58,10 @@ const getWeather = function(e){
 
 city_submit.addEventListener("click", getWeather);
 document.addEventListener("keydown", function(e){
-        if (e.code == 'Enter'){
-            getWeather(e);
-        }
+    if (e.code == 'Enter'){
+        getWeather(e);
     }
-)
+})
 
 
 ///////ATOCOMPLETE FUNCTION///////
@@ -62,7 +69,7 @@ const matchBuilder = function(matchingCity){
     if(match.children){match.innerHTML = ""}
     for(let i=0;i<4;i++){
         let li = document.createElement('li')
-       if(matchingCity[i] != undefined){
+        if(matchingCity[i] != undefined){
         li.innerHTML = matchingCity[i];
         match.appendChild(li);
         li.addEventListener('click',function(e){

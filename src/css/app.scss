@@ -105,6 +105,12 @@ body{
     }    
 }
 
+.weatherResult{
+    div {border: 1px solid white;
+    border-radius: 5px;
+    padding:10px;}
+}
+
 
 footer{
     position: absolute;
