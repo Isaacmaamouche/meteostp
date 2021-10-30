@@ -1,8 +1,9 @@
 console.log("le js fonctionne");
 //Api source : https://openweathermap.org/
 import villesFrance from '../data/villes_france.js';
-console.log(villesFrance[0].codep);
 
+let server = "https://warm-peak-43536.herokuapp.com";
+// let server = "http://127.0.0.1:3000" //For local testing
 let city_input = document.querySelector('#city_input');
 let match = document.querySelector('.mainContent__autocomplete');
 let city_submit = document.querySelector('#city_submit');
@@ -29,13 +30,13 @@ const getWeather = function(e){
     if(city_input.value == ""){
         alert('Entrez une ville')
     }else{
-    fetch(`http://127.0.0.1:3000/api/search?q=${city_input.value}`)
+    fetch(`${server}/api/search?q=${city_input.value}`)
     .then(response => response.json()) 
     .then(json => {
         if(weatherResult.children){weatherResult.innerHTML = ""}
 
         if(json.results.message !== "city not found"){
-            responseBuilder("Temps : ",json.results.weather[0].description);
+            responseBuilder("Temps : ",json.results.weather[0].description[0].toUpperCase() + json.results.weather[0].description.substring(1));
             responseBuilder("Température : ",`${json.results.main.temp} C°`);
             responseBuilder("Vent : ",`${json.results.wind.speed} km/h`);
         }else{
@@ -57,7 +58,6 @@ document.addEventListener("keydown", function(e){
 
 
 ///////ATOCOMPLETE FUNCTION///////
-//https://www.w3schools.com/howto/howto_js_autocomplete.asp
 const matchBuilder = function(matchingCity){
     if(match.children){match.innerHTML = ""}
     for(let i=0;i<4;i++){
@@ -66,13 +66,13 @@ const matchBuilder = function(matchingCity){
         li.innerHTML = matchingCity[i];
         match.appendChild(li);
         li.addEventListener('click',function(e){
-            city_input.value = e.target.innerHTML;
+            let clickedMatch = e.target.innerHTML.split(' - ')
+            city_input.value = clickedMatch[1];
             match.classList.remove('mainContent__autocomplete--active');
         })
        }
     }
 }
-
 
 const autoComplete = function(e){
     let match = document.querySelector('.mainContent__autocomplete');
