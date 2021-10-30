@@ -57,6 +57,7 @@ const getWeather = function(e){
 }
 
 city_submit.addEventListener("click", getWeather);
+city_submit.addEventListener("touchstart", getWeather);
 document.addEventListener("keydown", function(e){
     if (e.code == 'Enter'){
         getWeather(e);
