@@ -1,4 +1,3 @@
-console.log("le js fonctionne");
 //Api source : https://openweathermap.org/
 import villesFrance from '../data/villes_france.js';
 
