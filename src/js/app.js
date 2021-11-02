@@ -1,3 +1,4 @@
+import "../css/app.scss";
 //Api source : https://openweathermap.org/
 import villesFrance from '../data/villes_france.js';
 
