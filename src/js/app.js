@@ -8,7 +8,7 @@ let city_input = document.querySelector('#city_input');
 let match = document.querySelector('.mainContent__autocomplete');
 let city_submit = document.querySelector('#city_submit');
 let weatherResult = document.querySelector('.weatherResult');
-
+let weatherLoading = document.querySelector('.weatherLoading');
 
 const getWeather = function(e){
     document.querySelector('.mainContent__autocomplete').classList.remove('mainContent__autocomplete--active');
@@ -30,9 +30,11 @@ const getWeather = function(e){
     if(city_input.value == ""){
         alert('Entrez une ville')
     }else{
+        weatherLoading.classList.add('loader');
     fetch(`${server}/api/search?q=${city_input.value}`)
     .then(response => response.json()) 
     .then(json => {
+        weatherLoading.classList.remove('loader')
         if(weatherResult.children){weatherResult.innerHTML = ""}
         let div = document.createElement('div');
         weatherResult.appendChild(div);
